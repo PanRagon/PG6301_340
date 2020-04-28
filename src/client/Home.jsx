@@ -1,5 +1,6 @@
 import React from "react";
 import {Link, withRouter} from "react-router-dom";
+import CardList from "./CardList";
 
 class Home extends React.Component {
     constructor(props) {
@@ -12,7 +13,6 @@ class Home extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getCards();
     }
 
     render() {
@@ -24,105 +24,15 @@ class Home extends React.Component {
                     <br />
                 </div>
                 <div className={"classes"}>
-                    <div className={"classContainer"}>
-                        <h4>Mage cards:</h4>
-                        {this.state.cards.map((value, index) => {
-                            {if(value.cardClass === "MAGE") {return <div className={"cardName"} key={index}>
-                                <p>Name: {value.name}</p>
-                                <p dangerouslySetInnerHTML={{__html: "Card text: " + value.text}}/>
-                                <p>Cost: {value.cost}</p>
-                                {value.type === "MINION" ? <p>Attack: {value.attack} - Health: {value.health}</p> : null}
-                            </div>}}
-                        })}
-                    </div>
-                    <div className={"classContainer"}>
-                        <h4>Paladin cards:</h4>
-                        {this.state.cards.map((value, index) => {
-                            {if(value.cardClass === "PALADIN") {return <div className={"cardName"} key={index}>
-                                <p>Name: {value.name}</p>
-                                <p dangerouslySetInnerHTML={{__html: "Card text: " + value.text}}/>
-                                <p>Cost: {value.cost}</p>
-                                {value.type === "MINION" ? <p>Attack: {value.attack} - Health: {value.health}</p> : null}
-                            </div>}}
-                        })}
-                    </div>
-                    <div className={"classContainer"}>
-                        <h4>Warrior cards:</h4>
-                        {this.state.cards.map((value, index) => {
-                            {if(value.cardClass === "WARRIOR") {return <div className={"cardName"} key={index}>
-                                <p>Name: {value.name}</p>
-                                <p dangerouslySetInnerHTML={{__html: "Card text: " + value.text}}/>
-                                <p>Cost: {value.cost}</p>
-                                {value.type === "MINION" ? <p>Attack: {value.attack} - Health: {value.health}</p> : null}
-                            </div>}}
-                        })}
-                    </div>
-                    <div className={"classContainer"}>
-                        <h4>Priest cards:</h4>
-                        {this.state.cards.map((value, index) => {
-                            {if(value.cardClass === "PRIEST") {return <div className={"cardName"} key={index}>
-                                <p>Name: {value.name}</p>
-                                <p dangerouslySetInnerHTML={{__html: "Card text: " + value.text}}/>
-                                <p>Cost: {value.cost}</p>
-                                {value.type === "MINION" ? <p>Attack: {value.attack} - Health: {value.health}</p> : null}
-                            </div>}}
-                        })}
-                    </div>
-                    <div className={"classContainer"}>
-                        <h4>Rogue cards:</h4>
-                        {this.state.cards.map((value, index) => {
-                            {if(value.cardClass === "ROGUE") {return <div className={"cardName"} key={index}>
-                                <p>Name: {value.name}</p>
-                                <p dangerouslySetInnerHTML={{__html: "Card text: " + value.text}}/>
-                                <p>Cost: {value.cost}</p>
-                                {value.type === "MINION" ? <p>Attack: {value.attack} - Health: {value.health}</p> : null}
-                            </div>}}
-                        })}
-                    </div>
-                    <div className={"classContainer"}>
-                        <h4>Hunter cards:</h4>
-                        {this.state.cards.map((value, index) => {
-                            {if(value.cardClass === "HUNTER") {return <div className={"cardName"} key={index}>
-                                <p>Name: {value.name}</p>
-                                <p dangerouslySetInnerHTML={{__html: "Card text: " + value.text}}/>
-                                <p>Cost: {value.cost}</p>
-                                {value.type === "MINION" ? <p>Attack: {value.attack} - Health: {value.health}</p> : null}
-                            </div>}}
-                        })}
-                    </div>
-                    <div className={"classContainer"}>
-                        <h4>Shaman cards:</h4>
-                        {this.state.cards.map((value, index) => {
-                            {if(value.cardClass === "SHAMAN") {return <div className={"cardName"} key={index}>
-                                <p>Name: {value.name}</p>
-                                <p dangerouslySetInnerHTML={{__html: "Card text: " + value.text}}/>
-                                <p>Cost: {value.cost}</p>
-                                {value.type === "MINION" ? <p>Attack: {value.attack} - Health: {value.health}</p> : null}
-                            </div>}}
-                        })}
-                    </div>
-                    <div className={"classContainer"}>
-                        <h4>Druid cards:</h4>
-                        {this.state.cards.map((value, index) => {
-                            {if(value.cardClass === "DRUID") {return <div className={"cardName"} key={index}>
-                                <p>Name: {value.name}</p>
-                                <p dangerouslySetInnerHTML={{__html: "Card text: " + value.text}}/>
-                                <p>Cost: {value.cost}</p>
-                                {value.type === "MINION" ? <p>Attack: {value.attack} - Health: {value.health}</p> : null}
-                            </div>}}
-                        })}
-                    </div>
-                    <div className={"classContainer"}>
-                        <h4>Neutral cards:</h4>
-                        {this.state.cards.map((value, index) => {
-                            {if(value.cardClass === "NEUTRAL") {return <div className={"cardName"} key={index}>
-                                <p>Name: {value.name}</p>
-                                <p dangerouslySetInnerHTML={{__html: "Card text: " + value.text}}/>
-                                <p>Cost: {value.cost}</p>
-                                {value.type === "MINION" ? <p>Attack: {value.attack} - Health: {value.health}</p> : null}
-                            </div>}}
-                        })}
-                    </div>
+                    <CardList cards={this.props.cards} class={"MAGE"}/>
+                    <CardList cards={this.props.cards} class={"PALADIN"}/>
+                    <CardList cards={this.props.cards} class={"WARRIOR"}/>
+                    <CardList cards={this.props.cards} class={"PRIEST"}/>
+                    <CardList cards={this.props.cards} class={"ROGUE"}/>
+                    <CardList cards={this.props.cards} class={"HUNTER"}/>
+                    <CardList cards={this.props.cards} class={"SHAMAN"}/>
+                    <CardList cards={this.props.cards} class={"DRUID"}/>
+                    <CardList cards={this.props.cards} class={"NEUTRAL"}/>
                 </div>
             </div>
         )

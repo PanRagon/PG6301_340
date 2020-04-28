@@ -26,9 +26,7 @@ cardsArr.forEach((card) => {
 });
 
 
-
-//console.log(cards);
-
+//We return the card array here so that we can map it in the UI later.
 function getAllCards() {
     return cardsArr;
 }

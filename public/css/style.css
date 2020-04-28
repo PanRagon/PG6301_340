@@ -5,7 +5,23 @@
 .classes {
     flex-wrap: wrap;
     display: flex;
+}
 
+.collection-container-left {
+    padding-top: 50px;
+    position: absolute;
+    left: 2%;
+}
+
+.collection-container-right {
+    padding-top: 50px;
+    position: absolute;
+    left: 55%;
+}
+
+.packs-containers {
+    display: flex;
+    padding-top: 100px;
 }
 
 p {

@@ -7,13 +7,11 @@ class Collection extends React.Component {
 
         this.state = {
             error: null,
-            myCards: [],
-            cards: []
+            myCards: []
         };
     }
 
     componentDidMount() {
-        this.props.getCards();
     }
 
 
@@ -21,7 +19,16 @@ class Collection extends React.Component {
         if(!this.props.user) {
             return(<p>You need to login to see your collection!</p>)
         }
-        return (<p>Your collection</p>);
+        return (
+            <div className={"classes"}>
+                <div className={"collection-container-left"}>
+                    <h4>Your collection:</h4>
+                </div>
+                <div  className={"collection-container-right"}>
+                    <h4>Uncollected cards:</h4>
+                </div>
+                </div>
+        );
     }
 }
 

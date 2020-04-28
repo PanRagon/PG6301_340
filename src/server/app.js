@@ -12,6 +12,7 @@ const authApi = require("./routes/auth-api");
 const Users = require("./db/users");
 
 const cardsApi = require("./routes/cards-api");
+const collectionApi = require("./routes/collection-api");
 
 
 const app = express();
@@ -65,6 +66,7 @@ app.use(passport.session());
 //Use /api for all API routes
 app.use("/api", authApi);
 app.use("/api", cardsApi);
+app.use("/api", collectionApi);
 
 app.use(express.static('public'));
 

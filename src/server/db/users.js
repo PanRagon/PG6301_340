@@ -25,6 +25,7 @@ function createUser(id, password) {
     const user = {
         id,
         password,
+        packs: 3,
         collection: []
     };
 

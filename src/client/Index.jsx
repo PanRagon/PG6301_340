@@ -7,6 +7,7 @@ import Header from "./Header";
 import Login from "./Login";
 import {Register} from "./Register";
 import Collection from "./Collection";
+import Packs from "./Packs";
 
 
 class App extends React.Component {
@@ -16,10 +17,12 @@ class App extends React.Component {
 
         this.state = {
             user: null,
+            cards: []
         };
     }
 
     componentDidMount() {
+        this.getCards();
         this.fetchAndUpdateUserInfo();
     }
 
@@ -100,14 +103,19 @@ class App extends React.Component {
                         <Route exact path="/register" render={props => <Register user={this.state.user}
                                                                            {...props}
                                                                            fetchAndUpdateUserInfo={this.fetchAndUpdateUserInfo} />}/>
+                        <Route exact path="/packs" render={props => <Packs user={this.state.user}
+                                                                                     {...props}
+                                                                                     fetchAndUpdateUserInfo={this.fetchAndUpdateUserInfo}
+                                                                                     cards={this.state.cards}/>}/>
                         <Route exact path="/collection" render={props => <Collection user={this.state.user}
                                                                      {...props}
                                                                      fetchAndUpdateUserInfo={this.fetchAndUpdateUserInfo}
-                                                                     getCards={this.getCards}/>}/>
+                                                                     cards={this.state.cards}/>}/>
+
                         <Route exact path="/" render={props => <Home user={this.state.user}
                                                                      {...props}
                                                                      fetchAndUpdateUserInfo={this.fetchAndUpdateUserInfo}
-                                                                     getCards={this.getCards}/>}/>
+                                                                     cards={this.state.cards}/>}/>
                     </Switch>
                 </div>
             </BrowserRouter>

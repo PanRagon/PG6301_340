@@ -1,0 +1,21 @@
+.main {
+    flex-direction: row;
+}
+
+.classes {
+    flex-wrap: wrap;
+    display: flex;
+
+}
+
+p {
+    width: fit-content;
+}
+.cardName {
+    width: 350px;
+    border: solid black;
+}
+
+.header-text{
+    padding: 15px;
+}

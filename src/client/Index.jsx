@@ -89,7 +89,7 @@ class App extends React.Component {
 
     updateLoggedInUser = (user) => {
         this.setState({user: user});
-        this.getUserCollection();
+        this.getUserDetails();
     };
 
     getCards = async () => {
@@ -120,8 +120,8 @@ class App extends React.Component {
         this.setState({error: null, cards: stream});
     };
 
-    getUserCollection = async () => {
-        const url = `/api/collection/${this.state.user.id}`;
+      getUserDetails = async () => {
+        const url = `/api/users/${this.state.user.id}`;
         let response;
         try {
             response = await fetch(url, {
@@ -165,7 +165,7 @@ class App extends React.Component {
                                                                                    {...props}
                                                                                     error={this.state.error}
                                                                                    fetchAndUpdateUserInfo={this.fetchAndUpdateUserInfo}
-                                                                                   getUserCollection={this.getUserCollection}/>}/>
+                                                                                   getUserDetails={this.getUserDetails}/>}/>
                         <Route exact path="/register" render={props => <Register user={this.state.user}
                                                                                     {...props}
                                                                                     error={this.state.error}
@@ -174,13 +174,13 @@ class App extends React.Component {
                                                                                      userDetails={this.state.userDetails}
                                                                                      {...props}
                                                                                      error={this.state.error}
-                                                                                     getUserCollection={this.getUserCollection}
+                                                                                     getUserDetails={this.getUserDetails}
                                                                                      cards={this.state.cards}/>}/>
                         <Route exact path="/collection" render={props => <Collection user={this.state.user}
                                                                                      userDetails={this.state.userDetails}
                                                                                      {...props}
                                                                                      error={this.state.error}
-                                                                                     getUserCollection={this.getUserCollection}
+                                                                                     getUserDetails={this.getUserDetails}
                                                                                      cards={this.state.cards}/>}/>
 
                         <Route exact path="/" render={props => <Home user={this.state.user}
@@ -197,3 +197,5 @@ class App extends React.Component {
 }
 
 ReactDOM.render(<App/>, document.getElementById("root"));
+
+export default getUserDetails

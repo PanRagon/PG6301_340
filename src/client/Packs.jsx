@@ -12,7 +12,7 @@ class Packs extends React.Component {
     }
 
     componentDidMount() {
-        //this.getUserCollection()
+        //this.getUserDetails()
     }
 
     /*getPacks = async() => {
@@ -77,7 +77,7 @@ class Packs extends React.Component {
         }
 
         let stream = await response.json();
-        this.props.getUserCollection();
+        this.props.getUserDetails();
         this.setState({error: null, newCards: stream});
     };
 
@@ -109,7 +109,7 @@ class Packs extends React.Component {
             });
             return;
         }
-        this.props.getUserCollection();
+        this.props.getUserDetails();
         this.setState({error: null});
     };
 

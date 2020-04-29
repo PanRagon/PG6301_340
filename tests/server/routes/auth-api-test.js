@@ -118,3 +118,16 @@ test("Test login after logout", async () =>{
     response = await agent.get('/api/user');
     expect(response.statusCode).toBe(200);
 });
+
+test("Test user can fetch own information", async () => {
+    const agent = request.agent(app);
+
+    let response = await agent
+        .post('/api/register')
+        .send({id:"andrea", password:"42"})
+        .set('Content-Type', 'application/json');
+    expect(response.statusCode).toBe(201);
+
+    response = await agent.get("/api/users/andrea");
+    expect(response.statusCode).toBe(200);
+});

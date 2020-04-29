@@ -2,7 +2,7 @@ import React from "react";
 import {Link, withRouter} from "react-router-dom";
 import CardList from "./CardList";
 
-class Home extends React.Component {
+export class Home extends React.Component {
     constructor(props) {
         super(props);
 

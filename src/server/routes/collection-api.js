@@ -6,14 +6,15 @@ const router = express.Router();
 
 
 
-router.get("/collection/:id/cards", function (req, res) {
-    if(!req.body) {
+router.get("/collection/:id", function (req, res) {
+    if(!req.user) {
         res.status(401).json(
             "401: Unauthenticated - Please log in"
-        )
+        );
+        return;
     }
 
-    if(req.body !== req.params["id"]) {
+    if(req.user.id !== req.params["id"]) {
         res.status(403).json(
             "403: Forbidden"
         )
@@ -47,27 +48,6 @@ router.delete("/collection/:id/mill", function (req, res) {
     res.status(200).send();
 });
 
-//This actually lists all the information, but I'm keeping it seperate from authentication to avoid some glitches
-//I had when trying to mutate the logged in state.
-router.get("/collection/:id", function (req, res) {
-    if(!req.user) {
-        res.status(401).json(
-            "401: Unauthenticated - Please login"
-        )
-    }
 
-    if(req.user.id !== req.params["id"]) {
-        res.status(403).json(
-            "403: Forbidden"
-        )
-    }
-    const user = Users.getUser(req.params["id"]);
-    //Don't want to send out the password in plaintext...
-    delete user.password;
-    if(!user) {
-        res.status(404).send();
-    }
-    res.status(200).json(user);
-});
 
 module.exports = router;

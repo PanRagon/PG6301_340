@@ -9,9 +9,11 @@ const router = express.Router();
 router.get("/cards", function (req, res) {
     const cards = Cards.getAllCards();
 
+    console.log(typeof cards);
     //If there are no cards to serve the user, we've probably messed up. 500 makes most sense here.
-    if(!cards || cards === []) {
+    if(!Array.isArray(cards) || !cards.length) {
         res.status(500).send();
+        return
     }
 
     res.status(200).json(cards)

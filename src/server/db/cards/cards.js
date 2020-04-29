@@ -38,5 +38,9 @@ function getCard(id) {
     return cards.get(id)
 }
 
+//Only used to verify that the API will give an error if the array is empty, this isn't actually available as an endpoint.
+function deleteAllCards() {
+    cardsArr = [];
+}
 
-module.exports = {getAllCards, getCard};
+module.exports = {getAllCards, getCard, deleteAllCards};

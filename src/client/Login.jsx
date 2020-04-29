@@ -4,7 +4,7 @@
 import React, {Fragment} from "react";
 import {Link, withRouter } from "react-router-dom";
 
-class Login extends React.Component {
+export class Login extends React.Component {
     constructor(props) {
         super(props);
 
@@ -70,6 +70,7 @@ class Login extends React.Component {
                     <p>Username:</p>
                     <input
                         type="text"
+                        id="username-input"
                         value={this.state.id}
                         onChange={this.onUsernameChange}
                     />
@@ -77,6 +78,7 @@ class Login extends React.Component {
                 <div>
                     <p>Password:</p>
                     <input
+                        id="password-input"
                         type="password"
                         value={this.state.password}
                         onChange={this.onPasswordChange}
@@ -85,7 +87,7 @@ class Login extends React.Component {
 
                 {this.state.error}
 
-                <button className="button" onClick={this.doLogin}>
+                <button id="login-btn" className="button" onClick={this.doLogin}>
                     Log In
                 </button>
             </div>

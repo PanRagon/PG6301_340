@@ -19,6 +19,16 @@ test("Test opening pack with no auth", async () =>{
     expect(response.statusCode).toBe(401);
 });
 
+test("Test can't buy packs if not logged in", async () => {
+    let response = await request(app).put("/api/packs/buy");
+    expect(response.statusCode).toBe(401);
+});
+
+test("Test can't get users' packs if not logged in", async () => {
+    let response = await request(app).get("/api/packs/andrea");
+    expect(response.statusCode).toBe(401);
+});
+
 test("Test shouldn't get other users' packs", async () => {
     const agent = request.agent(app);
     let response = await agent
@@ -29,6 +39,11 @@ test("Test shouldn't get other users' packs", async () => {
 
     response = await agent.get("/api/packs/andrea");
     expect(response.statusCode).toBe(403);
+});
+
+test("Test can't get users' cards if not logged in", async () => {
+    let response = await request(app).get("/api/collection/richie_rich");
+    expect(response.statusCode).toBe(401);
 });
 
 test("Test shouldn't get other users' cards", async () => {
@@ -43,8 +58,8 @@ test("Test shouldn't get other users' cards", async () => {
     expect(response.statusCode).toBe(403);
 });
 
-test("Test can't buy packs if not logged in", async () => {
-    let response = await request(app).put("/api/packs/buy");
+test("Test can't mill if not logged in", async () => {
+    let response = await request(app).delete("/api/collection/richie_rich/mill");
     expect(response.statusCode).toBe(401);
 });
 
@@ -57,7 +72,7 @@ test("Test can't mill other users' cards", async () => {
     expect(response.statusCode).toBe(204);
 
 
-    let fakeCard = {id: "AT_001", name: "Flame Lance"};
+    let fakeCard = {id: "2702", name: "Flame Lance"};
     response = await agent.delete("/api/collection/andrea/mill")
         .send(JSON.stringify(fakeCard)).set("Content-Type", "application/json");
     expect(response.statusCode).toBe(403);

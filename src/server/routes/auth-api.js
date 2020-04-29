@@ -51,5 +51,25 @@ router.get("/user", function(req, res) {
 });
 
 
+router.get("/users/:id", function (req, res) {
+    if(!req.user) {
+        res.status(401).json(
+            "401: Unauthenticated - Please login"
+        )
+    }
+
+    if(req.user.id !== req.params["id"]) {
+        res.status(403).json(
+            "403: Forbidden"
+        )
+    }
+    const user = Users.getUser(req.params["id"]);
+    //Don't want to send out the password in plaintext...
+    delete user.password;
+    if(!user) {
+        res.status(404).send();
+    }
+    res.status(200).json(user);
+});
 
 module.exports = router;

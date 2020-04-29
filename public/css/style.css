@@ -42,6 +42,11 @@ p {
     border: solid black;
 }
 
+.unowned-card-holder {
+    width: 500px;
+    border: solid black;
+}
+
 .header-text{
     padding: 15px;
 }

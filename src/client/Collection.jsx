@@ -33,7 +33,7 @@ class Collection extends React.Component {
         }
 
         this.setState({error: null});
-        this.props.getUserCollection();
+        this.props.getUserDetails();
     };
 
 
@@ -63,7 +63,7 @@ class Collection extends React.Component {
                     <h4>Uncollected cards:</h4>
                     {this.props.cards.map((value, index) => {
                         let display = this.props.userDetails.collection.find(myCard => myCard.id === value.id);
-                        return !display &&  <div className={"owned-card-holder"} key={index}>
+                        return !display &&  <div className={"unowned-card-holder"} key={index}>
                             <p>{value.name}</p>
                             <p>{value.rarity}</p>
                         </div>

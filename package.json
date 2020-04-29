@@ -1,5 +1,5 @@
 {
-    "author": "Kandidatnummer: 340",
+    "author": "Candidate number: 340",
     "babel": {
         "plugins": [
             "@babel/plugin-proposal-class-properties"

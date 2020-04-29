@@ -17,13 +17,43 @@ class App extends React.Component {
 
         this.state = {
             user: null,
-            cards: []
+            cards: [],
+            userDetails: {
+                id: null,
+                gold: 0,
+                packs: 0,
+                totalCards: 0,
+                collection: []
+            },
+            packNotification: 0
         };
     }
 
     componentDidMount() {
         this.getCards();
         this.fetchAndUpdateUserInfo();
+
+        let protocol = "ws:";
+        if (window.location.protocol.toLowerCase() === "https:") {
+            protocol = "wss";
+        }
+
+        this.socket = new WebSocket(protocol + "//" + window.location.host);
+
+        this.socket.onmessage = (event) => {
+            const dto = JSON.parse(event.data);
+
+            if(!dto) {
+                this.setState({packNotifications: null});
+                return;
+            }
+
+            this.setState({packNotifications: 1})
+        }
+    }
+
+    componentWillUnmount() {
+        this.socket.close();
     }
 
 
@@ -40,7 +70,7 @@ class App extends React.Component {
                 method: "get"
             });
         } catch (err) {
-            this.setState({errorMsg: "Failed to connect to server: " + err});
+            this.setState({error: "Can't fetch User - Failed to connect to server: " + err});
             return;
         }
 
@@ -50,7 +80,7 @@ class App extends React.Component {
         }
 
         if (response.status !== 200) {
-            this.setState({errorMsg: "Error: Server responded with code " + response.status})
+            this.setState({error: "Can't fetch user - Server responded with status code " + response.status})
         } else {
             const payload = await response.json();
             this.updateLoggedInUser(payload);
@@ -59,6 +89,10 @@ class App extends React.Component {
 
     updateLoggedInUser = (user) => {
         this.setState({user: user});
+        if(user === null) {
+            this.setState({userDetails: null});
+        }
+        this.getUserCollection();
     };
 
     getCards = async () => {
@@ -72,14 +106,14 @@ class App extends React.Component {
                 }
             });
         } catch (err) {
-            this.setState({postsError: "Failed to connect to server: " + err});
+            this.setState({error: "Can't fetch cards - Failed to connect to server: " + err});
             return;
         }
 
         if (response.status !== 200) {
             this.setState({
-                postsError:
-                    "Error when connecting to server: status code " + response.status
+                error:
+                    "Can't fetch cards - Server responded with status code " + response.status
             });
             return;
         }
@@ -89,31 +123,65 @@ class App extends React.Component {
         this.setState({error: null, cards: stream});
     };
 
+    getUserCollection = async () => {
+        const url = `/api/usercollection/${this.state.user.id}`;
+        console.log(this.state.user.id);
+        let response;
+        try {
+            response = await fetch(url, {
+                method: "get",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+        } catch (err) {
+            this.setState({error: "Can't get gold - Failed to connect to server: " + err});
+            return
+        }
+        if(response.status !== 200) {
+            this.setState({error: "Can't get gold - Server responded with status code " + response.status})
+        }
+
+        let stream = await response.json();
+
+        this.setState({error: null, userDetails: stream});
+
+    };
+
     render() {
 
         return (
             <BrowserRouter>
                 <div>
                     <Header user={this.state.user}
+                            userDetails={this.state.userDetails}
                             updateLoggedInUser={this.updateLoggedInUser}/>
                     <Switch>
                         <Route exact path="/login" render={props => <Login user={this.state.user}
-                                                                               {...props}
-                                                                               fetchAndUpdateUserInfo={this.fetchAndUpdateUserInfo}/>}/>
+                                                                                   {...props}
+                                                                                    error={this.state.error}
+                                                                                   fetchAndUpdateUserInfo={this.fetchAndUpdateUserInfo}
+                                                                                   getUserCollection={this.getUserCollection}/>}/>
                         <Route exact path="/register" render={props => <Register user={this.state.user}
-                                                                           {...props}
-                                                                           fetchAndUpdateUserInfo={this.fetchAndUpdateUserInfo} />}/>
+                                                                                    {...props}
+                                                                                    error={this.state.error}
+                                                                                    fetchAndUpdateUserInfo={this.fetchAndUpdateUserInfo} />}/>
                         <Route exact path="/packs" render={props => <Packs user={this.state.user}
+                                                                                     userDetails={this.state.userDetails}
                                                                                      {...props}
-                                                                                     fetchAndUpdateUserInfo={this.fetchAndUpdateUserInfo}
+                                                                                     error={this.state.error}
+                                                                                     getUserCollection={this.getUserCollection}
                                                                                      cards={this.state.cards}/>}/>
                         <Route exact path="/collection" render={props => <Collection user={this.state.user}
-                                                                     {...props}
-                                                                     fetchAndUpdateUserInfo={this.fetchAndUpdateUserInfo}
-                                                                     cards={this.state.cards}/>}/>
+                                                                                     userDetails={this.state.userDetails}
+                                                                                     {...props}
+                                                                                     error={this.state.error}
+                                                                                     getUserCollection={this.getUserCollection}
+                                                                                     cards={this.state.cards}/>}/>
 
                         <Route exact path="/" render={props => <Home user={this.state.user}
                                                                      {...props}
+                                                                     error={this.state.error}
                                                                      fetchAndUpdateUserInfo={this.fetchAndUpdateUserInfo}
                                                                      cards={this.state.cards}/>}/>
                     </Switch>

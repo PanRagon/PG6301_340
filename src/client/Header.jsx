@@ -1,13 +1,10 @@
 import React, {Fragment} from "react";
 import {Link, withRouter } from "react-router-dom";
 
-class Header extends React.Component {
+export class Header extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            user: this.props.user,
-        }
     };
 
 
@@ -34,18 +31,28 @@ class Header extends React.Component {
     renderLoggedIn() {
         return (
             <React.Fragment>
-                <Link className={"header-text"} to={"/"}>
-                    All cards
-                </Link>
-                <Link className={"header-text"} to={"/collection"}>
-                    Collection
-                </Link>
-                <Link className={"header-text"} to={"/packs"}>
-                    Packs
-                </Link>
-                <button className="header-buttons" onClick={this.doLogout}>
-                    Logout
-                </button>
+                <div className={"header"}>
+                    <div>
+                        <Link className={"header-text"} to={"/"}>
+                            All cards
+                        </Link>
+                        <Link className={"header-text"} to={"/collection"}>
+                            Collection
+                        </Link>
+                        <Link className={"header-text"} to={"/packs"}>
+                            Packs
+                        </Link>
+                        <button id="logout-btn" onClick={this.doLogout}>
+                            Logout
+                        </button>
+                    </div>
+
+                    <div className={"header-user-info-container"}>
+                        <p className={"header-user-info"}>Username: {this.props.user.id}</p>
+                        <p className={"header-user-info"}>Gold: {this.props.userDetails.gold}</p>
+                        <p className={"header-user-info"}>Card count: {this.props.userDetails.totalCards}</p>
+                    </div>
+                </div>
             </React.Fragment>
         )
     }
@@ -70,16 +77,12 @@ class Header extends React.Component {
 
         let content;
 
-        if(this.props.delayRender) {
-            return(<div/>)
-        }
-
         if(!this.props.user) {
             content = this.renderNotLoggedIn();
         } else content = this.renderLoggedIn(this.props.user.id);
 
         return (
-            <div className="header">
+            <div className="header-wrapper">
                 Hearthstone Pack Simulator
                 <br/>
                 {content}

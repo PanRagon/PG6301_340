@@ -14,10 +14,13 @@ const Users = require("./db/users");
 const cardsApi = require("./routes/cards-api");
 const collectionApi = require("./routes/collection-api");
 
+const WsHandler = require('./ws-handler');
 
 const app = express();
 
 app.use(bodyParser.json());
+
+WsHandler.init(app);
 
 app.use(session({
     secret: "a secret used to encrypt the session cookies",

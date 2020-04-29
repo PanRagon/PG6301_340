@@ -26,7 +26,9 @@ function createUser(id, password) {
         id,
         password,
         packs: 3,
-        collection: []
+        collection: [],
+        totalCards: 0,
+        gold: 100
     };
 
     users.set(id, user);
@@ -48,7 +50,11 @@ function deleteUser(id) {
 }
 
 //Simulate User
-createUser("Andrea", "42", "27.09.1989");
-createUser("Tomas", "FizzBuzz", "27.04.1987");
+function createInitialUsers() {
+    createUser("Andrea", "42");
+    createUser("Tomas", "FizzBuzz");
+    createUser("RichieRich", "cashmoney");
 
-module.exports = {getUser, verifyUser, createUser, deleteAllUsers, deleteUser, users};
+}
+
+module.exports = {getUser, verifyUser, createUser, deleteAllUsers, deleteUser, createInitialUsers, users};

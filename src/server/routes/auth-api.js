@@ -9,13 +9,12 @@ const Users = require("../db/users");
 const router = express.Router();
 
 router.post("/login", passport.authenticate("local"), (req, res) => {
-
     res.status(204).send();
 });
 
 router.post("/register", function (req, res) {
 
-    const created = Users.createUser(req.body.id, req.body.password, req.body.firstName, req.body.lastName, req.body.birthdate);
+    const created = Users.createUser(req.body.id, req.body.password);
 
     if(!created) {
         res.status(400).send();

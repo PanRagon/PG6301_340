@@ -21,7 +21,7 @@ export class Register extends React.Component {
     };
 
     doRegister = async () => {
-        const {id, password, confirm, firstName, lastName, birthdate} = this.state;
+        const {id, password, confirm} = this.state;
 
         if (confirm !== password) {
             this.setState({error: "Passwords do not match"});
@@ -30,7 +30,7 @@ export class Register extends React.Component {
 
         const url = "/api/register";
 
-        const payload = {id, password, firstName, lastName, birthdate};
+        const payload = {id, password};
 
         let response;
 
@@ -43,35 +43,35 @@ export class Register extends React.Component {
                 body: JSON.stringify(payload)
             });
         } catch (err) {
-            this.setState({registerError: "Failed to connect to server: " + err});
+            this.setState({error: "Failed to connect to server: " + err});
             return;
         }
 
         if (response.status === 400) {
-            this.setState({ registerError: "Invalid username or password" });
+            this.setState({ error: "Invalid username or password" });
             return;
         }
 
         if (response.status !== 201) {
             this.setState({
-                registerError:
+                error:
                     "Error when connecting to server: status code " + response.status
             });
             return;
         }
 
-        this.setState({registerError: null});
+        this.setState({error: null});
         await this.props.fetchAndUpdateUserInfo();
         this.props.history.push("/");
     };
 
     render() {
 
-        let error = <div></div>;
-        if (this.state.registerError) {
+        let error;
+        if (this.state.error) {
             error = (
                 <div className="errorMsg">
-                    <p>{this.state.registerError}</p>
+                    <p>{this.state.error}</p>
                 </div>
             );
         }

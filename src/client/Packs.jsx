@@ -7,16 +7,15 @@ class Packs extends React.Component {
 
         this.state = {
             error: null,
-            newCards: [],
-            packs: 0
+            newCards: []
         };
     }
 
     componentDidMount() {
-        this.getPacks()
+        //this.getUserCollection()
     }
 
-    getPacks = async() => {
+    /*getPacks = async() => {
         const url = `/api/packs/${this.props.user.id}`;
         let response;
 
@@ -40,10 +39,9 @@ class Packs extends React.Component {
         let stream = await response.json();
 
         this.setState({error: null, packs: stream})
-    };
+    }; */
 
     openPack = async () => {
-        let payload = {id: this.props.user.id};
         const url = "/api/openpack";
         let response;
 
@@ -52,7 +50,7 @@ class Packs extends React.Component {
                 method: "put",
                 headers: {
                     "Content-Type": "application/json"
-                }, body: JSON.stringify(payload)
+                }
             });
         } catch (err) {
             this.setState({error: "Failed to connect to server: " + err});
@@ -79,8 +77,40 @@ class Packs extends React.Component {
         }
 
         let stream = await response.json();
+        this.props.getUserCollection();
         this.setState({error: null, newCards: stream});
-        this.getPacks();
+    };
+
+    buyPack = async () => {
+        const url = "/api/buypack";
+        let response;
+
+        try {
+            response = await fetch(url, {
+                method: "put",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+        } catch (err) {
+            this.setState({error: "Failed to connect to server: " + err});
+            return;
+        }
+        if (response.status === 404) {
+            this.setState({
+                error: "User not found"
+            });
+            return;
+        }
+
+        if (response.status !== 200) {
+            this.setState({
+                error: "Error when connecting to server: status code " + response.status
+            });
+            return;
+        }
+        this.props.getUserCollection();
+        this.setState({error: null});
     };
 
     render() {
@@ -88,14 +118,19 @@ class Packs extends React.Component {
             return(<p>You need to login to see your packs!</p>)
         }
 
-        console.log(this.props.user.packs);
         let error = this.state.error ? this.state.error : null;
 
         return (
             <div>
                 <div className={"packs-containers"}>
-                    <h4>Your packs: {this.state.packs}</h4>
-                    <button disabled={this.state.packs === 0} onClick={this.openPack}>Open one!</button>
+                    <div>
+                        <h4>Your packs: {this.props.userDetails.packs}</h4>
+                        <button disabled={this.props.userDetails.packs === 0} onClick={this.openPack}>Open one!</button>
+                    </div>
+                    <div>
+                        <h4>Buy additional packs</h4>
+                        <button disabled={this.props.userDetails.gold < 100} onClick={this.buyPack}>100 Gold</button>
+                    </div>
                 </div>
                 <div className={"packs-containers"}>
                     {this.state.newCards.length !== 0 &&
@@ -104,6 +139,7 @@ class Packs extends React.Component {
                         return <p className={"cardName"} key={index}>
                             <p>Name: {value.name}</p>
                             <p>Class: {value.cardClass}</p>
+                            <p>Rarity: {value.rarity}</p>
                             <p dangerouslySetInnerHTML={{__html: "Card text: " + value.text}}/>
                             <p>Cost: {value.cost}</p>
                             {value.type === "MINION" ? <p>Attack: {value.attack} - Health: {value.health}</p> : null}

@@ -8,13 +8,13 @@
 }
 
 .collection-container-left {
-    padding-top: 50px;
+    top: 200px;
     position: absolute;
     left: 2%;
 }
 
 .collection-container-right {
-    padding-top: 50px;
+    top: 200px;
     position: absolute;
     left: 55%;
 }
@@ -22,6 +22,11 @@
 .packs-containers {
     display: flex;
     padding-top: 100px;
+    justify-content: space-evenly;
+}
+
+.owned-card-text {
+
 }
 
 p {
@@ -32,6 +37,36 @@ p {
     border: solid black;
 }
 
+.owned-card-holder {
+    width: 500px;
+    border: solid black;
+}
+
 .header-text{
     padding: 15px;
+}
+
+.mill-btn {
+    position: relative;
+    width: 150px;
+    text-align: center;
+    top: 0px;
+    right: 0px;
+}
+
+.header-user-info-container {
+    display: flex;
+    padding-right: 15px;
+    justify-content: flex-end;
+    justify-self: flex-end;
+}
+.header-user-info {
+    position: relative;
+    padding-right: 15px;
+}
+
+
+.header {
+    display: flex;
+    justify-content: space-between;
 }

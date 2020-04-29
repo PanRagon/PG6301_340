@@ -26,7 +26,7 @@ cardsArr.forEach((card) => {
 });
 
 
-//We return the card array here so that we can map it in the UI later.
+//We just return the card array here so that we can map it in the UI later.
 function getAllCards() {
     return cardsArr;
 }
@@ -36,4 +36,4 @@ function getCard(id) {
 }
 
 
-module.exports = {getAllCards};
+module.exports = {getAllCards, getCard};

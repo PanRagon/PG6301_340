@@ -89,9 +89,6 @@ class App extends React.Component {
 
     updateLoggedInUser = (user) => {
         this.setState({user: user});
-        if(user === null) {
-            this.setState({userDetails: null});
-        }
         this.getUserCollection();
     };
 
@@ -124,7 +121,7 @@ class App extends React.Component {
     };
 
     getUserCollection = async () => {
-        const url = `/api/usercollection/${this.state.user.id}`;
+        const url = `/api/collection/${this.state.user.id}`;
         console.log(this.state.user.id);
         let response;
         try {
@@ -145,8 +142,16 @@ class App extends React.Component {
         let stream = await response.json();
 
         this.setState({error: null, userDetails: stream});
-
     };
+
+    notFound() {
+        return (
+            <div>
+                <h2>404 - Not Found</h2>
+                <p>The page you requested is in another castle.</p>
+            </div>
+        );
+    }
 
     render() {
 
@@ -184,6 +189,7 @@ class App extends React.Component {
                                                                      error={this.state.error}
                                                                      fetchAndUpdateUserInfo={this.fetchAndUpdateUserInfo}
                                                                      cards={this.state.cards}/>}/>
+                        <Route component={this.notFound} />
                     </Switch>
                 </div>
             </BrowserRouter>

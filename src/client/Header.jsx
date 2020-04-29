@@ -49,8 +49,8 @@ export class Header extends React.Component {
 
                     <div className={"header-user-info-container"}>
                         <p className={"header-user-info"}>Username: {this.props.user.id}</p>
-                        <p className={"header-user-info"}>Gold: {this.props.userDetails.gold}</p>
-                        <p className={"header-user-info"}>Card count: {this.props.userDetails.totalCards}</p>
+                        <p className={"header-user-info"}>Gold: {this.props.userDetails.gold !== null ? this.props.userDetails.gold : "Error"}</p>
+                        <p className={"header-user-info"}>Card count: {this.props.userDetails.totalCards !== null ? this.props.userDetails.totalCards : "Error"}</p>
                     </div>
                 </div>
             </React.Fragment>

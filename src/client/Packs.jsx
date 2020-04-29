@@ -42,7 +42,7 @@ class Packs extends React.Component {
     }; */
 
     openPack = async () => {
-        const url = "/api/openpack";
+        const url = "/api/packs/open";
         let response;
 
         try {
@@ -82,7 +82,7 @@ class Packs extends React.Component {
     };
 
     buyPack = async () => {
-        const url = "/api/buypack";
+        const url = "/api/packs/buy";
         let response;
 
         try {

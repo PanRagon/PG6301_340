@@ -1,9 +1,43 @@
-const Cards = require("../../../src/server/routes/collection-api");
+const Collection = require("../../../src/server/db/collection");
+const Users = require("../../../src/server/db/users");
 const request = require('supertest');
 const app = require('../../../src/server/app');
 
-//beforeEach()
-
-test("1 should be 1", () => {
-    expect(1).toBe(1);
+beforeEach(() => {
+    Users.createInitialUsers();
 })
+
+afterEach(() => {
+    Users.deleteAllUsers();
+})
+
+test("Test get user cards", async () =>{
+    const agent = request.agent(app);
+
+    let response = await agent
+        .post('/api/login')
+        .send({id: "tomas", password:"FizzBuzz"})
+        .set('Content-Type', 'application/json');
+    expect(response.statusCode).toBe(204);
+
+    response = await agent.get("/api/collection/tomas");
+    expect(response.statusCode).toBe(200);
+});
+
+test("Test user can mill card", async () => {
+    const agent = request.agent(app);
+    Collection.makeRichieRich();
+
+    let response = await agent
+        .post('/api/login')
+        .send({id: "richie_rich", password:"cashmoney"})
+        .set('Content-Type', 'application/json');
+    expect(response.statusCode).toBe(204);
+
+    const cardId = "AT_001";
+
+    response = await agent.delete("/api/collection/richie_rich/mill")
+        .send({cardId})
+        .set("Content-Type", "application/json");
+    expect(response.statusCode).toBe(200);
+});

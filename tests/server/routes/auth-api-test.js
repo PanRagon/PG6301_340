@@ -27,7 +27,7 @@ test("Test fail to fetch non-existent user", async () =>{
 
 test("Test create user, but fail fetch data", async () =>{
 
-    const id = 'foo_' + (counter++);
+    const id = 'Foo_' + (counter++);
 
     let response = await request(app)
         .post('/api/register')
@@ -46,7 +46,7 @@ test("Test create user, but fail fetch data", async () =>{
 
 test("Test create user, login in a different session and get data", async () =>{
 
-    const id = 'foo_' + (counter++);
+    const id = 'Foo_' + (counter++);
 
     //create user, but ignore cookie set with the HTTP response
     let response = await request(app)
@@ -79,7 +79,7 @@ test("Test create user, login in a different session and get data", async () =>{
 
 test("Test login after logout", async () =>{
 
-    const id = 'foo_' + (counter++);
+    const id = 'Foo_' + (counter++);
 
     //use same cookie jar for the HTTP requests
     const agent = request.agent(app);
@@ -118,4 +118,3 @@ test("Test login after logout", async () =>{
     response = await agent.get('/api/user');
     expect(response.statusCode).toBe(200);
 });
-

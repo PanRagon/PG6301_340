@@ -11,9 +11,10 @@ class Collection extends React.Component {
     }
 
     millCard = async (card) => {
-        const url = `/api/mill`;
+        console.log(this.props.userDetails.id);
+        const url = `/api/collection/${this.props.user.id}/mill`;
         let response;
-        let payload = {card: card};
+        let payload = {cardId: card.id};
 
         try {
             response = await fetch(url, {

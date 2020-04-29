@@ -1,4 +1,4 @@
-//AuthAPI and simulated Users database based on example given in excercise solutions in web_development_and_api_design repository
+//AuthAPI and simulated Users database based on example given in exercise solutions in web_development_and_api_design repository
 //https://github.com/arcuri82/web_development_and_api_design/blob/master/exercise-solutions/quiz-game/part-10/src/server/db/users.js
 
 const users = new Map();
@@ -51,9 +51,9 @@ function deleteUser(id) {
 
 //Simulate User
 function createInitialUsers() {
-    createUser("Andrea", "42");
-    createUser("Tomas", "FizzBuzz");
-    createUser("RichieRich", "cashmoney");
+    createUser("andrea", "42");
+    createUser("tomas", "FizzBuzz");
+    createUser("richie_rich", "cashmoney");
 
 }
 

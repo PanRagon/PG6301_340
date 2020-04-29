@@ -10,7 +10,7 @@ let cards = new Map();
 let cardsArr = JSON.parse(json).slice(0, 100);
 
 //Just filtering out some properties we don't need to keep it streamlined
-let propertiesToRemove = ["artist", "collectible", "dbfId", "playRequirements", "set", "mechanics"];
+let propertiesToRemove = ["artist", "collectible", "dbfId", "playRequirements", "set", "mechanics", "flavor"];
 
 
 cardsArr.forEach((card) => {

@@ -14,6 +14,8 @@ let propertiesToRemove = ["artist", "collectible", "dbfId", "playRequirements", 
 
 
 cardsArr.forEach((card) => {
+    //dbfId is a pure numeral ID, better for this purpose as I'll be using it in the API URIs.
+    card.id = card.dbfId;
     //Spells have a $ in front of them if they deal damage and # if they heal, we don't want this.
     if(card.text) {
         card.text = card.text.replace(/\$/, "");
@@ -22,6 +24,7 @@ cardsArr.forEach((card) => {
     propertiesToRemove.forEach((property) => {
         delete card[property]
     });
+    //delete card[dbfId];
     cards.set(card.id, card);
 });
 

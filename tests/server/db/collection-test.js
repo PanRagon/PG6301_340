@@ -17,18 +17,18 @@ test("Test mill values are correct", () => {
     let richie = Users.getUser("richie_rich");
     let gold = richie.gold;
     //Test Common
-    Collection.millCard(richie.id, "AT_001");
+    Collection.millCard(richie.id, 2539);
     expect(richie.gold).toBe(gold + 10);
     gold = richie.gold;
     //Test Rare
-    Collection.millCard(richie.id, "AT_002");
+    Collection.millCard(richie.id, 2541);
     expect(richie.gold).toBe(gold + 25);
     gold = richie.gold;
     //Test Epic
-    Collection.millCard(richie.id, "AT_004");
+    Collection.millCard(richie.id, 2572);
     expect(richie.gold).toBe(gold + 50);
     gold = richie.gold;
     //Test Legendary
-    Collection.millCard(richie.id, "AT_009");
+    Collection.millCard(richie.id, 2546);
     expect(richie.gold).toBe(gold + 100);
 });

@@ -11,7 +11,6 @@ class Collection extends React.Component {
     }
 
     millCard = async (card) => {
-        console.log(this.props.userDetails.id);
         const url = `/api/collection/${this.props.user.id}/mill`;
         let response;
         let payload = {cardId: card.id};

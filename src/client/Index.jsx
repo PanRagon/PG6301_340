@@ -122,7 +122,6 @@ class App extends React.Component {
 
     getUserCollection = async () => {
         const url = `/api/collection/${this.state.user.id}`;
-        console.log(this.state.user.id);
         let response;
         try {
             response = await fetch(url, {

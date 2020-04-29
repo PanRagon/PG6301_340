@@ -10,7 +10,7 @@ router.get("/cards", function (req, res) {
     const cards = Cards.getAllCards();
 
     //If there are no cards to serve the user, we've probably messed up. 500 makes most sense here.
-    if(!cards) {
+    if(!cards || cards === []) {
         res.status(500).send();
     }
 

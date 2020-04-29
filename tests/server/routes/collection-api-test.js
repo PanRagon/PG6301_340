@@ -34,7 +34,7 @@ test("Test user can mill card", async () => {
         .set('Content-Type', 'application/json');
     expect(response.statusCode).toBe(204);
 
-    const cardId = "AT_001";
+    const cardId = 2542;
 
     response = await agent.delete("/api/collection/richie_rich/mill")
         .send({cardId})

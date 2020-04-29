@@ -111,6 +111,7 @@ export class Register extends React.Component {
                     <p>Username:</p>
                     <input
                         type="text"
+                        id={"username-input"}
                         value={this.state.id}
                         onInput={this.enforceLowerCase}
                         name="id"
@@ -120,6 +121,7 @@ export class Register extends React.Component {
                 <div>
                     <p>Password:</p>
                     <input
+                        id={"password-input"}
                         type="password"
                         name="password"
                         value={this.state.password}
@@ -129,6 +131,7 @@ export class Register extends React.Component {
                 <div>
                     <p>Confirm:</p>
                     <input
+                        id={"confirm-input"}
                         type="password"
                         name="confirm"
                         value={this.state.confirm}
@@ -137,7 +140,7 @@ export class Register extends React.Component {
                     <div>{confirmMsg}</div>
                 </div>
                 {error}
-                <button className="button" onClick={this.doRegister}>
+                <button id="register-btn"className="button" onClick={this.doRegister}>
                     Sign Up
                 </button>
             </div>

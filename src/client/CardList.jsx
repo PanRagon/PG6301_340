@@ -9,7 +9,7 @@ function CardList(props) {
     return (<div className={"card-container"}>
             <h4>{formattedClass} cards:</h4>
             {props.cards.map((value, index) => {
-                {if(value.cardClass === props.class) {return <div className={"cardName"} key={index}>
+                {if(value.cardClass === props.class) {return <div className={"card-name"} key={index}>
                     <p>Name: {value.name}</p>
                     <p>Rarity: {value.rarity}</p>
                     <p dangerouslySetInnerHTML={{__html: "Card text: " + value.text}}/>

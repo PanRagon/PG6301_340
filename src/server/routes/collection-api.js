@@ -67,7 +67,6 @@ router.get("/collection/:id", function (req, res) {
     if(!user) {
         res.status(404).send();
     }
-    console.log(user);
     res.status(200).json(user);
 });
 

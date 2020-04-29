@@ -136,7 +136,7 @@ class Packs extends React.Component {
                     {this.state.newCards.length !== 0 &&
                     <h4>New Cards:</h4>}
                     {this.state.newCards.map((value, index) => {
-                        return <p className={"cardName"} key={index}>
+                        return <p className={"card-name"} key={index}>
                             <p>Name: {value.name}</p>
                             <p>Class: {value.cardClass}</p>
                             <p>Rarity: {value.rarity}</p>

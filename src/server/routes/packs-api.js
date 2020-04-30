@@ -4,16 +4,19 @@ const Users = require("../db/users");
 
 const router = express.Router();
 
-//This and the buy pack action should only be done from the frontend service with the required user authentication.
-//As such I'll be using the user's own authenticated ID for these services rather than the parameter.
-router.put("/packs/open", function (req, res) {
+router.put("/packs/:id/open", function (req, res) {
     if(!req.user) {
         res.status(401).json(
             "401: Unauthenticated - Please log in"
         );
     }
+    if(req.user.id !== req.params["id"]) {
+        res.status(403).json(
+            "403: Forbidden"
+        );
+    }
 
-    const user = Users.getUser(req.user.id);
+    const user = Users.getUser(req.params["id"]);
     const newCards = Packs.openPack(user.id, 5);
     if(!newCards) {
         res.status(404).json(
@@ -42,10 +45,10 @@ router.get("/packs/:id", function (req, res) {
 });
 
 //Could also be a put since it also mutates entities, but it could go either way, I'm using a post here since one is required.
-router.post("/packs/buy", function (req, res) {
+router.post("/packs/:id/buy", function (req, res) {
     if(!req.user) {
         res.status(401).json(
-            "401: Authenticated - Please log in"
+            "401: Unauthenticated - Please log in"
         )
     }
     const bought = Packs.buyPack(req.user.id);
@@ -55,6 +58,24 @@ router.post("/packs/buy", function (req, res) {
         )
     }
     res.status(200).send();
+});
+
+router.post("/packs/:id/airdrop", function (req, res) {
+    if(!req.user) {
+        res.status(401).json(
+            "401: Unauthenticated - Please log in"
+        )
+    }
+    if(req.user.id !== req.params["id"]) {
+        res.status(403).json(
+            "403: Forbidden"
+        )
+    }
+    const airdrop = Packs.receiveAirdrop(req.user.id);
+    console.log(airdrop);
+    res.status(201).json(
+        "Received gift"
+    );
 });
 
 module.exports = router;

@@ -85,10 +85,8 @@ function buyCard(id, cardId) {
         }
     );
     if(!foundCard) {
-        user.collection.push({
-            card: {card,
-                    count: 1}
-        })
+        card.count = 1;
+        user.collection.push(card);
     }
     user.totalCards++;
     return true;

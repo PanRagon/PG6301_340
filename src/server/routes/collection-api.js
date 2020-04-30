@@ -35,7 +35,6 @@ router.delete("/collection/:id/mill", function (req, res) {
         )
 
     }
-
     if(req.user.id !== req.params["id"]) {
         res.status(403).json(
             "403: Forbidden"

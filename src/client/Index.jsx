@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import {BrowserRouter, Switch, Route} from 'react-router-dom';
 
+
 import Home from "./Home";
 import Header from "./Header";
 import Login from "./Login";
@@ -14,6 +15,8 @@ class App extends React.Component {
 
     constructor(props) {
         super(props);
+
+        this.silencePackNotification = this.silencePackNotification.bind(this);
 
         this.state = {
             user: null,
@@ -41,20 +44,29 @@ class App extends React.Component {
         this.socket = new WebSocket(protocol + "//" + window.location.host);
 
         this.socket.onmessage = (event) => {
-            const dto = JSON.parse(event.data);
+            if(!this.state.user) {
+                return;
+            }
+            const message = JSON.parse(event.data);
 
-            console.log(dto);
+            console.log(message);
 
-            if(!dto) {
+            if(!message) {
                 return;
             }
 
-            this.setState({packNotifications: 1})
+            this.receiveAirdrop();
+            this.setState({packNotification: this.state.packNotification + 1});
         }
     }
 
     componentWillUnmount() {
         this.socket.close();
+    }
+
+    silencePackNotification(event) {
+        console.log("Killing pack notifications");
+        this.setState({packNotification: 0})
     }
 
 
@@ -93,6 +105,33 @@ class App extends React.Component {
         this.getUserDetails();
     };
 
+    receiveAirdrop = async () => {
+        const url = `/api/packs/${this.state.user.id}/airdrop`;
+        let response;
+        try {
+            response = await fetch(url, {
+                method: "post",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+        } catch (err) {
+            this.setState({error: "Can't post new packs - Failed to connect to server: " + err});
+            return;
+        }
+
+        if (response.status !== 201) {
+            this.setState({
+                error:
+                    "Can't post new packs - Server responded with status code " + response.status
+            });
+            return;
+        }
+
+        this.setState({error: null});
+        this.getUserDetails();
+    };
+
     getCards = async () => {
         const url = "/api/cards";
         let response;
@@ -120,6 +159,7 @@ class App extends React.Component {
 
         this.setState({error: null, cards: stream});
     };
+
 
       getUserDetails = async () => {
         const url = `/api/users/${this.state.user.id}`;
@@ -160,7 +200,8 @@ class App extends React.Component {
                 <div>
                     <Header user={this.state.user}
                             userDetails={this.state.userDetails}
-                            updateLoggedInUser={this.updateLoggedInUser}/>
+                            updateLoggedInUser={this.updateLoggedInUser}
+                            packNotification={this.state.packNotification}/>
                     <Switch>
                         <Route exact path="/login" render={props => <Login user={this.state.user}
                                                                                    {...props}
@@ -176,6 +217,8 @@ class App extends React.Component {
                                                                                      {...props}
                                                                                      error={this.state.error}
                                                                                      getUserDetails={this.getUserDetails}
+                                                                                     packNotification={this.state.packNotification}
+                                                                                     silencePackNotification={() => this.silencePackNotification()}
                                                                                      cards={this.state.cards}/>}/>
                         <Route exact path="/collection" render={props => <Collection user={this.state.user}
                                                                                      userDetails={this.state.userDetails}
@@ -197,6 +240,6 @@ class App extends React.Component {
     }
 }
 
-ReactDOM.render(<App/>, document.getElementById("root"));
+ReactDOM.render(<App/>, document.getElementById("root") || document.createElement("div"));
 
 export default getUserDetails

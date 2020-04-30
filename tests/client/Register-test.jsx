@@ -8,7 +8,6 @@ const {MemoryRouter} = require('react-router-dom');
 const {overrideFetch, asyncCheckCondition} = require('../mytest-utils');
 const app = require('../../src/server/app');
 
-
 const {Register} = require('../../src/client/register');
 const {deleteAllUsers, getUser, createUser, createInitialUsers} = require('../../src/server/db/users');
 
@@ -52,64 +51,3 @@ test("Test password mismatch", async () => {
 
     expect(error).toEqual(true);
 });
-
-/*test("Create user", async () =>{
-
-    const userId = "foo";
-    expect(getUser(userId)).toEqual(undefined);
-
-    overrideFetch(app);
-
-    const fetchAndUpdateUserInfo = () => new Promise(resolve => resolve());
-    let page = null;
-    const history = {push: (h) => {page=h}};
-
-    const driver = mount(
-        <MemoryRouter initialEntries={["/register"]}>
-            <Register fetchAndUpdateUserInfo={fetchAndUpdateUserInfo} history={history} />
-        </MemoryRouter>
-    );
-
-    const password = "123";
-
-    fillForm(driver, userId, password, password);
-
-
-    const redirected = await asyncCheckCondition(
-        () => {return page === "/"},
-        2000 ,200);
-
-    expect(redirected).toEqual(true);
-
-    expect(getUser(userId).id).toEqual(userId);
-});
-
-
-test("Fail if user already exists", async () =>{
-
-    createInitialUsers();
-
-    const userId = "foo";
-    const password = "123";
-    createUser(userId, password);
-
-    overrideFetch(app);
-
-    const fetchAndUpdateUserInfo = () => new Promise(resolve => resolve());
-    let page = null;
-    const history = {push: (h) => {page=h}};
-
-    const driver = mount(
-        <MemoryRouter initialEntries={["/register"]}>
-            <Register fetchAndUpdateUserInfo={fetchAndUpdateUserInfo} history={history} />
-        </MemoryRouter>
-    );
-
-    fillForm(driver, userId, password, password);
-
-    const failed = await asyncCheckCondition(
-        () => {driver.update(); return driver.html().includes('Invalid')},
-        4000 ,200);
-
-    expect(failed).toEqual(true);
-}); */

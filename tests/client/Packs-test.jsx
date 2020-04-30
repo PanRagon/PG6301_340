@@ -2,6 +2,7 @@ import Packs from "../../src/client/Packs";
 import Users from "../../src/server/db/users";
 import Cards from "../../src/server/db/cards/cards";
 import CollectionDB from "../../src/server/db/collection";
+import { shallow } from 'enzyme';
 
 const React = require('react');
 const { mount } = require('enzyme');
@@ -9,16 +10,18 @@ const { MemoryRouter } = require('react-router-dom');
 
 const { overrideFetch, asyncCheckCondition } = require('../mytest-utils');
 const app = require('../../src/server/app');
+const request = require('supertest');
 
 beforeEach(() => {
     Users.createInitialUsers();
 });
 
 test("Test should show user's packs", async () => {
+    const getUserDetails = () => new Promise(resolve => resolve());
     let user = Users.getUser("andrea");
     const driver = mount(
         <MemoryRouter>
-        <Packs user={user.id} userDetails={user}/>
+        <Packs user={user.id} getUserDetails={getUserDetails} userDetails={user}/>
     </MemoryRouter>
     );
 
@@ -26,30 +29,13 @@ test("Test should show user's packs", async () => {
 });
 
 test("Test should render not logged in", async () => {
+    const getUserDetails = () => new Promise(resolve => resolve());
+
     const driver = mount(
         <MemoryRouter>
-            <Packs />
+            <Packs getUserDetails={getUserDetails}/>
         </MemoryRouter>
     );
-    const text = "You need to login to see your packs!"
+    const text = "You need to login to see your packs!";
     expect(driver.html().includes(text)).toBe(true);
 });
-
-/*test("Test should open pack", async () => {
-    overrideFetch(app);
-    let user = Users.getUser("andrea");
-    const driver = mount(
-        <MemoryRouter>
-            <Packs user={user.id} userDetails={user}/>
-        </MemoryRouter>
-    );
-
-    const openBtn = driver.find("#open-btn").at(0);
-    openBtn.simulate("click");
-
-    const newCards = await asyncCheckCondition(
-        () => {driver.update(); return driver.html().includes("New Cards")},
-        2000, 200);
-
-    expect(newCards).toEqual(true)
-}); */

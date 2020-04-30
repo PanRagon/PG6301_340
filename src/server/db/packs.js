@@ -44,15 +44,11 @@ function getPacks(id) {
     if(!user) {
         throw "User not found";
     }
-
     return user.packs
 }
 
 function buyPack (id) {
     const user = Users.getUser(id);
-    if(!user) {
-        throw "User not found"
-    }
     if(user.gold < 100) {
         return false;
     }
@@ -61,4 +57,10 @@ function buyPack (id) {
     return true;
 }
 
-module.exports = {openPack, getPacks, buyPack};
+function receiveAirdrop (id) {
+    const user = Users.getUser(id);
+    user.packs++;
+    return true;
+}
+
+module.exports = {openPack, getPacks, buyPack, receiveAirdrop};

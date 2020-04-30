@@ -19,16 +19,28 @@ beforeEach(() => {
 test("Test should show user's cards", async () => {
     let user = Users.getUser("richie_rich");
     let cards = Cards.getAllCards();
-    const driver = mount(
+    let driver = mount(
         <MemoryRouter>
             <Collection user={user.id} userDetails={user} cards={cards}/>
         </MemoryRouter>
     );
 
-    const ownedCards = driver.find(".owned-card-holder");
-    expect(ownedCards.length).toBeGreaterThan(20);
-    const unownedCardContainer = driver.find(".unowned-card-holder");
-    expect(unownedCardContainer.length).toBe(0)
+    let ownedCards = driver.find(".owned-card-holder");
+    expect(ownedCards.length).toBe(100);
+    let unownedCardContainer = driver.find(".unowned-card-holder");
+    expect(unownedCardContainer.length).toBe(0);
+
+    user = Users.getUser("andrea");
+    driver = mount(
+        <MemoryRouter>
+            <Collection user={user.id} userDetails={user} cards={cards}/>
+        </MemoryRouter>
+    );
+
+    ownedCards = driver.find(".owned-card-holder");
+    expect(ownedCards.length).toBe(0);
+    unownedCardContainer = driver.find(".unowned-card-holder");
+    expect(unownedCardContainer.length).toBe(100)
 });
 
 /*test("Test milling should reduce card count", async () => {

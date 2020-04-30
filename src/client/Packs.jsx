@@ -1,7 +1,8 @@
 import React from "react";
+import {PropTypes} from "react";
 import {Link, withRouter} from "react-router-dom";
 
-class Packs extends React.Component {
+export class Packs extends React.Component {
     constructor(props) {
         super(props);
 
@@ -12,37 +13,20 @@ class Packs extends React.Component {
     }
 
     componentDidMount() {
-        //this.getUserDetails()
+        this.props.getUserDetails();
+        if(this.props.packNotification > 0) {
+            this.props.silencePackNotification()
+        }
     }
 
-    /*getPacks = async() => {
-        const url = `/api/packs/${this.props.user.id}`;
-        let response;
-
-        try {
-            response = await fetch(url, {
-                method: "get",
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-        } catch (err) {
-            this.setState({error: "Failed to connect to server: " + err});
-            return;
+    componentDidUpdate() {
+        if(this.props.packNotification > 0) {
+            this.props.silencePackNotification()
         }
-
-        if(response.status !== 200) {
-            this.setState({error: "Error when connecting to server: status code " + response.status});
-            return;
-        }
-
-        let stream = await response.json();
-
-        this.setState({error: null, packs: stream})
-    }; */
+    }
 
     openPack = async () => {
-        const url = "/api/packs/open";
+        const url = `/api/packs/${this.props.user.id}/open`;
         let response;
 
         try {
@@ -82,7 +66,7 @@ class Packs extends React.Component {
     };
 
     buyPack = async () => {
-        const url = "/api/packs/buy";
+        const url = `/api/packs/${this.props.user.id}/buy`;
         let response;
 
         try {

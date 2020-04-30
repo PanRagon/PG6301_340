@@ -14,13 +14,13 @@ afterEach(() => {
 
 test("Test opening pack with no auth", async () =>{
 
-    const response = await request(app).put('/api/packs/open');
+    const response = await request(app).put('/api/packs/andrea/open');
 
     expect(response.statusCode).toBe(401);
 });
 
 test("Test can't buy packs if not logged in", async () => {
-    let response = await request(app).post("/api/packs/buy");
+    let response = await request(app).post("/api/packs/richie_rich/buy");
     expect(response.statusCode).toBe(401);
 });
 
@@ -115,4 +115,21 @@ test("Test purchase card for another user", async () => {
 
     response = await agent.post("/api/collection/andrea/buy");
     expect(response.statusCode).toBe(403);
+});
+
+test("Test not logged in getting airdrop", async () => {
+    let response = await request(app).post("/api/packs/andrea/airdrop");
+    expect(response.statusCode).toBe(401);
+});
+
+test("Test user open airdrops for other users", async () => {
+    const agent = request.agent(app);
+    let response = await agent
+        .post('/api/login')
+        .send({id: "tomas", password:"FizzBuzz"})
+        .set('Content-Type', 'application/json');
+    expect(response.statusCode).toBe(204);
+
+    response = await request(app).post("/api/packs/andrea/airdrop");
+    expect(response.statusCode).toBe(401);
 });

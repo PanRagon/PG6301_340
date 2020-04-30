@@ -22,7 +22,7 @@ test("Test user can open packs", async () => {
     expect(response.statusCode).toBe(204);
 
 
-    response = await agent.put("/api/packs/open")
+    response = await agent.put("/api/packs/andrea/open")
         .set("Content-Type", "application/json");
     expect(response.statusCode).toBe(200);
 });
@@ -37,11 +37,11 @@ test("Test user can't open unowned packs and ", async () => {
     expect(response.statusCode).toBe(204);
 
     for(let i = 0; i < 3; i++) {
-        response = await agent.put("/api/packs/open")
+        response = await agent.put("/api/packs/andrea/open")
             .set("Content-Type", "application/json");
         expect(response.statusCode).toBe(200);
     }
-    response = await agent.put("/api/packs/open")
+    response = await agent.put("/api/packs/andrea/open")
         .set("Content-Type", "application/json");
     console.log(response.body);
     expect(response.statusCode).toBe(404);
@@ -67,14 +67,27 @@ test("Test user can buy 1 pack but not two", async () => {
 
     let response = await agent
         .post('/api/login')
+        .send({id: "tomas", password:"FizzBuzz"})
+        .set('Content-Type', 'application/json');
+    expect(response.statusCode).toBe(204);
+
+    response = await agent.post("/api/packs/tomas/buy")
+        .set("Content-Type", "application/json");
+    expect(response.statusCode).toBe(200);
+    response = await agent.post("/api/packs/tomas/buy")
+        .set("Content-Type", "application/json");
+    expect(response.statusCode).toBe(400);
+});
+
+test("Test user gets airdrop", async () => {
+    const agent = request.agent(app);
+
+    let response = await agent
+        .post('/api/login')
         .send({id: "andrea", password:"42"})
         .set('Content-Type', 'application/json');
     expect(response.statusCode).toBe(204);
 
-    response = await agent.post("/api/packs/buy")
-        .set("Content-Type", "application/json");
-    expect(response.statusCode).toBe(200);
-    response = await agent.post("/api/packs/buy")
-        .set("Content-Type", "application/json");
-    expect(response.statusCode).toBe(400);
+    response = await agent.post("/api/packs/andrea/airdrop");
+    expect(response.statusCode).toBe(201);
 });

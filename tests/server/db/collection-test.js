@@ -52,3 +52,8 @@ test("Test purchase prices are correct", () => {
     Collection.buyCard(richie.id, 2546);
     expect(richie.gold).toBe(gold - 200);
 });
+
+test("Test get cards of no user", () => {
+   let error = Collection.getUserCards("notarealid");
+   expect(error).toEqual(false);
+});

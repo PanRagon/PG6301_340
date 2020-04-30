@@ -2,6 +2,7 @@
 //https://github.com/arcuri82/web_development_and_api_design/blob/master/exercise-solutions/quiz-game/part-10/src/client/signup.jsx
 
 import React from "react";
+import {withRouter} from "react-router-dom";
 
 export class Register extends React.Component {
     constructor(props) {
@@ -56,9 +57,11 @@ export class Register extends React.Component {
 
         const payload = {id, password};
 
+        console.log("Got url");
         let response;
 
         try {
+            console.log("In try");
             response = await fetch(url, {
                 method: "post",
                 headers: {
@@ -83,6 +86,7 @@ export class Register extends React.Component {
             });
             return;
         }
+        console.log("Finish call");
 
         this.setState({error: null});
         await this.props.fetchAndUpdateUserInfo();
@@ -140,9 +144,11 @@ export class Register extends React.Component {
                     <div>{confirmMsg}</div>
                 </div>
                 {error}
-                <button id="register-btn"className="button" onClick={this.doRegister}>
+                <button id="register-btn" className="button" onClick={this.doRegister}>
                     Sign Up
                 </button>
             </div>
         )}
 }
+
+export default withRouter(Register);

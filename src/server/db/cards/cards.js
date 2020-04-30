@@ -24,7 +24,6 @@ cardsArr.forEach((card) => {
     propertiesToRemove.forEach((property) => {
         delete card[property]
     });
-    //delete card[dbfId];
     cards.set(card.id, card);
 });
 
@@ -35,7 +34,7 @@ function getAllCards() {
 }
 
 function getCard(id) {
-    return cards.get(id)
+    return cards.get(id);
 }
 
 //Only used to verify that the API will give an error if the array is empty, this isn't actually available as an endpoint.

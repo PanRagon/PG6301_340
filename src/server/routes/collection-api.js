@@ -48,6 +48,24 @@ router.delete("/collection/:id/mill", function (req, res) {
     res.status(200).send();
 });
 
+router.post("/collection/:id/buy", function (req, res) {
+    if(!req.user) {
+        res.status(401).json(
+            "401: Unauthenticatd - Please log in"
+        )
+    }
+    if(req.user.id !== req.params["id"]) {
+        res.status(403).json(
+            "403: Forbidden"
+        );
+    }
+    const bought = Collection.buyCard(req.params["id"], req.body.cardId);
+    if(!bought) {
+        res.status(404).send();
+    }
+    res.status(201).send();
+});
+
 
 
 module.exports = router;

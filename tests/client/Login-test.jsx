@@ -6,11 +6,11 @@ const {mount} = require('enzyme');
 const {MemoryRouter} = require('react-router-dom');
 
 const {overrideFetch, asyncCheckCondition} = require('../mytest-utils');
-const {app} = require('../../src/server/app');
+const app = require('../../src/server/app');
 
 
 const {Login} = require('../../src/client/Login');
-const {deleteAllUsers, getUser, createUser} = require('../../src/server/db/users');
+const {deleteAllUsers, createUser, createInitialUsers} = require('../../src/server/db/users');
 
 
 beforeEach(deleteAllUsers);
@@ -19,11 +19,8 @@ beforeEach(deleteAllUsers);
 function fillForm(driver, id, password){
 
     const usernameInput = driver.find("#username-input").at(0);
-    console.log(usernameInput)
     const passwordInput = driver.find("#password-input").at(0);
-    console.log(passwordInput)
     const loginBtn = driver.find("#login-btn").at(0);
-    console.log(loginBtn)
 
     usernameInput.simulate('change', {target: {value: id}});
     passwordInput.simulate('change', {target: {value: password}});
@@ -51,11 +48,12 @@ test("Test fail login", async () => {
     expect(error).toEqual(true);
 });
 
-/*
+
 test("Test valid login", async () =>{
 
-    const userId = "Foo";
-    const password = "123";
+    createInitialUsers();
+    const userId = "andrea";
+    const password = "42";
     createUser(userId, password);
 
     overrideFetch(app);
@@ -65,7 +63,7 @@ test("Test valid login", async () =>{
     const history = {push: (h) => {page=h}};
 
     const driver = mount(
-        <MemoryRouter initialEntries={["/signup"]}>
+        <MemoryRouter initialEntries={["/login"]}>
             <Login fetchAndUpdateUserInfo={fetchAndUpdateUserInfo} history={history} />
         </MemoryRouter>
     );
@@ -77,4 +75,5 @@ test("Test valid login", async () =>{
         2000 ,200);
 
     expect(redirected).toEqual(true);
-});*/
+});
+

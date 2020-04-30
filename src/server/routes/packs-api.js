@@ -38,14 +38,11 @@ router.get("/packs/:id", function (req, res) {
     }
 
     const packs = Packs.getPacks(req.params["id"]);
-
-    if(!packs) {
-        res.status(404).send();
-    }
     res.status(200).json(packs);
 });
 
-router.put("/packs/buy", function (req, res) {
+//Could also be a put since it also mutates entities, but it could go either way, I'm using a post here since one is required.
+router.post("/packs/buy", function (req, res) {
     if(!req.user) {
         res.status(401).json(
             "401: Authenticated - Please log in"

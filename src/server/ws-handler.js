@@ -8,15 +8,17 @@ function init(app) {
     ews = express_ws(app);
 
     app.ws('/', function (socket, req) {
-        console.log('Established a new WS connection');
-        const data = JSON.stringify({additionalPack: true});
         socket.on("open", function open() {
-            console.log("connected to WS gift machine")
-            socket.setInterval(function addPack() {
-                socket.send(data);
-            }, 1000);
+            console.log("Connected to Websocket session");
+            socket.send(Date.now());
+
+            socket.setInterval(function timeout() {
+                socket.ping();
+                socket.send({newPack: true})
+            }, 5000);
+        });
     });
-})};
+}
 
 
 module.exports = {init};

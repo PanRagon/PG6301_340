@@ -17,9 +17,6 @@ function millCard(id, cardId) {
     const user = Users.getUser(id);
     const card = Cards.getCard(cardId);
 
-    if(!user) {
-        throw "User not found"
-    }
     let exists = false;
     user.collection.forEach((value, index) => {
         if(value.id === card.id) {
@@ -35,24 +32,65 @@ function millCard(id, cardId) {
     if(!exists) {
         throw "Can't find card";
     }
-    let cost;
+    let value;
     if(card.rarity === "COMMON") {
-        cost = 10;
+        value = 10;
     }
     if(card.rarity === "RARE") {
-        cost = 25;
+        value = 25;
     }
     if(card.rarity === "EPIC") {
-        cost = 50;
+        value = 50;
     }
     if(card.rarity === "LEGENDARY") {
+        value = 100;
+    }
+    user.gold = user.gold + value;
+    user.totalCards = user.totalCards - 1;
+    return true;
+}
+
+function buyCard(id, cardId) {
+    const user = Users.getUser(id);
+    const card = Cards.getCard(cardId);
+
+    if(!card) {
+        return false;
+    }
+    let cost;
+    if(card.rarity === "COMMON") {
+        cost = 20;
+    }
+    if(card.rarity === "RARE") {
+        cost = 50;
+    }
+    if(card.rarity === "EPIC") {
         cost = 100;
     }
-    user.gold = user.gold + cost;
-    user.totalCards = user.totalCards - 1;
+    if(card.rarity === "LEGENDARY") {
+        cost = 200;
+    }
 
-    Users.deleteUser(id);
-    Users.users.set(id, user);
+    if(user.gold < cost) {
+        return false;
+    }
+
+    user.gold = user.gold - cost;
+    let foundCard = false;
+    user.collection.forEach(value => {
+        if(cardId === value.id) {
+            foundCard = true;
+            value.count++;
+        }
+        }
+    );
+    if(!foundCard) {
+        user.collection.push({
+            card: {card,
+                    count: 1}
+        })
+    }
+    user.totalCards++;
     return true;
 }
 
@@ -67,4 +105,4 @@ function makeRichieRich() {
     });
 }
 
-module.exports = {getUserCards, millCard, makeRichieRich};
+module.exports = {getUserCards, millCard, buyCard, makeRichieRich};

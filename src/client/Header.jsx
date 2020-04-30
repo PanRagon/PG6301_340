@@ -22,7 +22,7 @@ export class Header extends React.Component {
 
         if (response.status !== 204) {
             alert("Error when connecting to server: status code " + response.status);
-            return;
+            return
         }
         this.props.history.push("/");
         this.props.updateLoggedInUser(null);

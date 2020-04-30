@@ -39,6 +39,10 @@ function deleteAllUsers() {
     users.clear();
 }
 
+function getAllUsers() {
+    return users;
+}
+
 function deleteUser(id) {
     const user = getUser(id);
 
@@ -57,4 +61,4 @@ function createInitialUsers() {
 
 }
 
-module.exports = {getUser, verifyUser, createUser, deleteAllUsers, deleteUser, createInitialUsers, users};
+module.exports = {getUser, verifyUser, createUser, getAllUsers, deleteAllUsers, deleteUser, createInitialUsers, users};

@@ -4,6 +4,7 @@
 
 const request = require('supertest');
 const app = require('../../../src/server/app');
+const Users = require("../../../src/server/db/users");
 
 let counter = 0;
 
@@ -131,3 +132,16 @@ test("Test user can fetch own information", async () => {
     response = await agent.get("/api/users/andrea");
     expect(response.statusCode).toBe(200);
 });
+
+test("Test attempt to create existing user", async () => {
+    Users.createInitialUsers();
+    let response = await request(app)
+        .post('/api/register')
+        .send({id: "andrea", password:"42"})
+        .set('Content-Type', 'application/json');
+    expect(response.statusCode).toBe(400);
+});
+
+test("Test get non-existant user", async() => {
+
+})

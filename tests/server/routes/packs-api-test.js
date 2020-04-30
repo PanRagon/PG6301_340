@@ -27,7 +27,7 @@ test("Test user can open packs", async () => {
     expect(response.statusCode).toBe(200);
 });
 
-test("Test user can't open unowned packs", async () => {
+test("Test user can't open unowned packs and ", async () => {
     const agent = request.agent(app);
 
     let response = await agent
@@ -47,7 +47,7 @@ test("Test user can't open unowned packs", async () => {
     expect(response.statusCode).toBe(404);
 });
 
-test("Test user can get packs", async () => {
+test("Test user can get their packs", async () => {
     const agent = request.agent(app);
 
     let response = await agent
@@ -71,10 +71,10 @@ test("Test user can buy 1 pack but not two", async () => {
         .set('Content-Type', 'application/json');
     expect(response.statusCode).toBe(204);
 
-    response = await agent.put("/api/packs/buy")
+    response = await agent.post("/api/packs/buy")
         .set("Content-Type", "application/json");
     expect(response.statusCode).toBe(200);
-    response = await agent.put("/api/packs/buy")
+    response = await agent.post("/api/packs/buy")
         .set("Content-Type", "application/json");
     expect(response.statusCode).toBe(400);
 });

@@ -87,7 +87,7 @@ class Packs extends React.Component {
 
         try {
             response = await fetch(url, {
-                method: "put",
+                method: "post",
                 headers: {
                     "Content-Type": "application/json"
                 }
@@ -125,7 +125,7 @@ class Packs extends React.Component {
                 <div className={"packs-containers"}>
                     <div>
                         <h4>Your packs: {this.props.userDetails.packs}</h4>
-                        <button disabled={this.props.userDetails.packs === 0} onClick={this.openPack}>Open one!</button>
+                        <button id="open-btn" disabled={this.props.userDetails.packs === 0} onClick={this.openPack}>Open one!</button>
                     </div>
                     <div>
                         <h4>Buy additional packs</h4>

@@ -6,14 +6,16 @@ const {mount} = require('enzyme');
 const {MemoryRouter} = require('react-router-dom');
 
 const {overrideFetch, asyncCheckCondition} = require('../mytest-utils');
-const {app} = require('../../src/server/app');
+const app = require('../../src/server/app');
 
 
 const {Register} = require('../../src/client/register');
-const {deleteAllUsers, getUser, createUser} = require('../../src/server/db/users');
+const {deleteAllUsers, getUser, createUser, createInitialUsers} = require('../../src/server/db/users');
 
 
-beforeEach(deleteAllUsers);
+beforeEach(createInitialUsers);
+
+afterEach(deleteAllUsers);
 
 function fillForm(driver, id, password, confirm){
 
@@ -50,10 +52,10 @@ test("Test password mismatch", async () => {
 
     expect(error).toEqual(true);
 });
-/*
-test("Create user", async () =>{
 
-    const userId = "Foo";
+/*test("Create user", async () =>{
+
+    const userId = "foo";
     expect(getUser(userId)).toEqual(undefined);
 
     overrideFetch(app);
@@ -77,7 +79,7 @@ test("Create user", async () =>{
         () => {return page === "/"},
         2000 ,200);
 
-    //expect(redirected).toEqual(true);
+    expect(redirected).toEqual(true);
 
     expect(getUser(userId).id).toEqual(userId);
 });
@@ -85,7 +87,9 @@ test("Create user", async () =>{
 
 test("Fail if user already exists", async () =>{
 
-    const userId = "Foo";
+    createInitialUsers();
+
+    const userId = "foo";
     const password = "123";
     createUser(userId, password);
 
@@ -104,9 +108,8 @@ test("Fail if user already exists", async () =>{
     fillForm(driver, userId, password, password);
 
     const failed = await asyncCheckCondition(
-        () => {driver.update(); return driver.html().includes('Invalid username/password')},
-        2000 ,200);
+        () => {driver.update(); return driver.html().includes('Invalid')},
+        4000 ,200);
 
     expect(failed).toEqual(true);
-});
-*/
+}); */

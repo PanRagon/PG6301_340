@@ -43,8 +43,9 @@ class App extends React.Component {
         this.socket.onmessage = (event) => {
             const dto = JSON.parse(event.data);
 
+            console.log(dto);
+
             if(!dto) {
-                this.setState({packNotifications: null});
                 return;
             }
 

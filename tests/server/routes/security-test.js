@@ -20,7 +20,7 @@ test("Test opening pack with no auth", async () =>{
 });
 
 test("Test can't buy packs if not logged in", async () => {
-    let response = await request(app).put("/api/packs/buy");
+    let response = await request(app).post("/api/packs/buy");
     expect(response.statusCode).toBe(401);
 });
 
@@ -75,5 +75,44 @@ test("Test can't mill other users' cards", async () => {
     let fakeCard = {id: "2702", name: "Flame Lance"};
     response = await agent.delete("/api/collection/andrea/mill")
         .send(JSON.stringify(fakeCard)).set("Content-Type", "application/json");
+    expect(response.statusCode).toBe(403);
+});
+
+test("Test user who isn't logged in can't authenticate", async () => {
+    let response = await request(app).get("/api/packs/andrea");
+    expect(response.statusCode).toBe(401);
+});
+
+test("Test get user info when not logged in", async () => {
+    let response = await request(app).get("/api/users/andrea");
+    expect(response.statusCode).toBe(401)
+});
+
+test("Test get other user's info", async () => {
+    const agent = request.agent(app);
+    let response = await agent
+        .post('/api/login')
+        .send({id: "tomas", password:"FizzBuzz"})
+        .set('Content-Type', 'application/json');
+    expect(response.statusCode).toBe(204);
+
+    response = await agent.get("/api/users/andrea");
+    expect(response.statusCode).toBe(403)
+});
+
+test("Test purchase card unauthenticated", async () => {
+    let response = await request(app).post("/api/collection/andrea/buy");
+    expect(response.statusCode).toBe(401);
+});
+
+test("Test purchase card for another user", async () => {
+    const agent = request.agent(app);
+    let response = await agent
+        .post('/api/login')
+        .send({id: "tomas", password:"FizzBuzz"})
+        .set('Content-Type', 'application/json');
+    expect(response.statusCode).toBe(204);
+
+    response = await agent.post("/api/collection/andrea/buy");
     expect(response.statusCode).toBe(403);
 });

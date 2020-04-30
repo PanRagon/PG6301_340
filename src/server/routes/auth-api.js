@@ -66,9 +66,6 @@ router.get("/users/:id", function (req, res) {
     const user = Users.getUser(req.params["id"]);
     //Don't want to send out the password in plaintext...
     delete user.password;
-    if(!user) {
-        res.status(404).send();
-    }
     res.status(200).json(user);
 });
 

@@ -36,8 +36,6 @@ function openPack(id, cardCount) {
     });
     user.totalCards = totalCards;
 
-    Users.deleteUser(id);
-    Users.users.set(id, user);
     return newCards;
 }
 
@@ -60,9 +58,7 @@ function buyPack (id) {
     }
     user.gold = user.gold - 100;
     user.packs++;
-    Users.deleteUser(id);
-    Users.users.set(id, user);
     return true;
 }
 
-module.exports = {openPack, getPacks, buyPack}
+module.exports = {openPack, getPacks, buyPack};

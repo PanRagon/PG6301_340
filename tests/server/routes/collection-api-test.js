@@ -5,11 +5,11 @@ const app = require('../../../src/server/app');
 
 beforeEach(() => {
     Users.createInitialUsers();
-})
+});
 
 afterEach(() => {
     Users.deleteAllUsers();
-})
+});
 
 test("Test get user cards", async () =>{
     const agent = request.agent(app);
@@ -41,3 +41,21 @@ test("Test user can mill card", async () => {
         .set("Content-Type", "application/json");
     expect(response.statusCode).toBe(200);
 });
+
+test("Test user can buy card", async () => {
+    const agent = request.agent(app);
+    Collection.makeRichieRich();
+
+    let response = await agent
+        .post('/api/login')
+        .send({id: "richie_rich", password:"cashmoney"})
+        .set('Content-Type', 'application/json');
+    expect(response.statusCode).toBe(204);
+
+    const cardId = 2542;
+
+    response = await agent.post("/api/collection/richie_rich/buy")
+        .send({cardId})
+        .set("Content-Type", "application/json");
+    expect(response.statusCode).toBe(201);
+})

@@ -24,3 +24,16 @@ that this should be the other way around, as 401 is semantically called Unauthor
 doubt I'll always follow the words in the exam, and have so named 401 status codes Unauthorized instead, 
 but I wanted to clarify my thoughts on this in case it comes up.
 
+##Requirements Achieved
+R1 thorugh R5
+
+T1 through T5
+
+Test coverage 67.92%
+
+##Extra functionality
+Rarity on cards impact mill price
+
+Cards are sorted by class
+
+User can purchase cards individually for twice the price of milling

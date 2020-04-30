@@ -32,3 +32,23 @@ test("Test mill values are correct", () => {
     Collection.millCard(richie.id, 2546);
     expect(richie.gold).toBe(gold + 100);
 });
+
+test("Test purchase prices are correct", () => {
+    let richie = Users.getUser("richie_rich");
+    let gold = richie.gold;
+    //Test Common
+    Collection.buyCard(richie.id, 2539);
+    expect(richie.gold).toBe(gold - 20);
+    gold = richie.gold;
+    //Test Rare
+    Collection.buyCard(richie.id, 2541);
+    expect(richie.gold).toBe(gold - 50);
+    gold = richie.gold;
+    //Test Epic
+    Collection.buyCard(richie.id, 2572);
+    expect(richie.gold).toBe(gold - 100);
+    gold = richie.gold;
+    //Test Legendary
+    Collection.buyCard(richie.id, 2546);
+    expect(richie.gold).toBe(gold - 200);
+});

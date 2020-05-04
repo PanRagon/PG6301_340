@@ -47,11 +47,9 @@ class App extends React.Component {
             if(!this.state.user) {
                 return;
             }
-            const message = JSON.parse(event.data);
+            console.log(event.data);
 
-            console.log(message);
-
-            if(!message) {
+            if(!event.data) {
                 return;
             }
 

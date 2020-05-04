@@ -130,6 +130,6 @@ test("Test user open airdrops for other users", async () => {
         .set('Content-Type', 'application/json');
     expect(response.statusCode).toBe(204);
 
-    response = await request(app).post("/api/packs/andrea/airdrop");
-    expect(response.statusCode).toBe(401);
+    response = await agent.post("/api/packs/andrea/airdrop");
+    expect(response.statusCode).toBe(403);
 });

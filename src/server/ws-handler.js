@@ -6,13 +6,13 @@ function init(app) {
 
     ews = express_ws(app);
 
-    app.ws('/', function (socket, req) {
+    app.ws('/', function (ws, req) {
         console.log("New connection");
         let airdrop = setInterval(() => {
             console.log("Airdropping...");
-            socket.send(JSON.stringify({newPack: true}))
+            ws.send(JSON.stringify({newPack: true}))
         }, 60000);
-        socket.on("close", function(close) {
+        ws.on("close", function(close) {
             console.log("Closed");
             clearInterval(airdrop);
         })

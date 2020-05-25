@@ -10,7 +10,7 @@ To run the application you need to do the following
 
 * Run "yarn install" in your commandline at the project.
 * After the installation you can host a local server by running "yarn start" (Will run at port 8080, ensure it's available)
-* Connect to the local server via going to localhost:8080 on your browser
+* Connect to the local server by going to localhost:8080 on your browser
 
 When you load into the page you can register a new account, or if you ever wanted to know what it felt like to be super-rich
 in terms of virtual collectible cards, you can login with the usernam "richie_rich" and password "cashmoney".

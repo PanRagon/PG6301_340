@@ -1,5 +1,7 @@
 # PG6301_340
- Exam for Webutvikling and API-design
+ This project was done as my exam in the subject Webdevelopment and API-design, and was completed in 48 hours. The task of the exam can be found in a [a PDF available in this repository](2020_pg6301_exam_april.pdf)
+
+Final grade was B, which represented the top 10% of all exam deliverances.
  
  ##Run Guide
  

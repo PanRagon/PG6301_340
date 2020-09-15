@@ -2,25 +2,46 @@
 //https://hearthstonejson.com/
 //I've limited the amount of cards imported here to keep the file from being unecessarily large.
 
-let json = require("./cards.json");
+
+
+let json = require("./newCards.json");
+const utils = require("./utils.js");
+
 json = JSON.stringify(json);
 let cards = new Map();
 
-//We're only keeping 100 cards for the sake of the UI on this project
-let cardsArr = JSON.parse(json).slice(0, 100);
+
+let cardsArr = JSON.parse(json);
 
 //Just filtering out some properties we don't need to keep it streamlined
-let propertiesToRemove = ["artist", "collectible", "dbfId", "playRequirements", "set", "mechanics", "flavor"];
+let propertiesToRemove = ["artist", "collectible", "playRequirements", "mechanics", "flavor"];
 
 
 cardsArr.forEach((card) => {
-    //dbfId is a pure numeral ID, better for this purpose as I'll be using it in the API URIs.
-    card.id = card.dbfId;
+    //This API also serves hero skins for some reason, we don't want that.
+    if(card.set === "HERO_SKINS") {
+        return null;
+    }
+
+
+    //I had originally changed dbfId, which is purely numerical, to be the card's ID for the purpose of
+    //cleaner API URIs. Later when I added images, I needed access to images which were on the id-field, but I still
+    //wanted the primary ID used to access cards be named as id.
+    [card.id, card.dbfId] = [card.dbfId, card.id];
+
+
+    if(utils.sets[card.set]) {
+        card.set = utils.sets[card.set];
+    }
+
     //Spells have a $ in front of them if they deal damage and # if they heal, we don't want this.
     if(card.text) {
         card.text = card.text.replace(/\$/, "");
         card.text = card.text.replace(/#/, "");
     }
+
+
+
     propertiesToRemove.forEach((property) => {
         delete card[property]
     });

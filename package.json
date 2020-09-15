@@ -1,5 +1,5 @@
 {
-    "author": "Candidate number: 340",
+    "author": "Christian Iversen",
     "babel": {
         "plugins": [
             "@babel/plugin-proposal-class-properties"

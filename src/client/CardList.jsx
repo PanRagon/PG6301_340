@@ -11,7 +11,6 @@ function CardList(props) {
             {props.cards.map((value, index) => {
                 {if(value.cardClass === props.class) {return <div className={"card-name"} key={index}>
                     <p>Name: {value.name}</p>
-                    <p>Set: {value.set}</p>
                     <p>Rarity: {value.rarity}</p>
                     <p dangerouslySetInnerHTML={{__html: "Card text: " + value.text}}/>
                     <p>Cost: {value.cost}</p>
